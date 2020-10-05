@@ -1,5 +1,5 @@
 # Site settings
-baseURL = "http://example.org/"
+baseURL = "https://amansharmaportfoliowebsite.netlify.app/"
 languageCode = "en-us"
 title = "Aman"
 theme = "forty"
@@ -92,7 +92,7 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "Blog 1"
+      title = "Project 1"
       subtitle = "Ipsum Dolor Sit Amet"
       image = "pic01.jpg"
       url = "blogs/aliquam"
