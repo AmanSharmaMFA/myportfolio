@@ -1,5 +1,5 @@
 ---
-title: "about"
+title: "About Aman"
 output: html_document
 ---
 
@@ -9,4 +9,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About Me
 
-This is a page about me!
+Hello, welcome to my portfolio website. My name is Aman, a 22 year old British MFA student at London Business School. Below is a high level overview of my background:
+
++ Nationality: British
++ Where I have lived: Maidenhead (a town 30 miles West of London) from ages 0-18 and then London since starting my undergraduate degree! *Yes, I know I am a very global citizen at this point(!)*
++ Ethnicity: Indian - I am the first generation to be born and raised in the UK
++ Undergraduate Degree: BSc Economics at University College London
++ Hobbies: Playing rugby, watching football
++ Career Ambitions: Investment Banking immediately after LBS, we'll see after that!
+
+I've enjoyed picking up some coding knowledge through this course, it has motivated me to pursue it further. In the meantime, please check out some of the projects I have worked on over the past few weeks!
+
+All the best,
+
+**Aman Sharma**
+
+

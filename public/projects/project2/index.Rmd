@@ -66,7 +66,7 @@ desc_beer<- drinks %>%
 
 top25_beer<-head(desc_beer,25)
 
-ggplot(top25_beer,aes(x=reorder(country,beer_servings),y=beer_servings)) + geom_col(fill="brown") + labs(x="Country", y="Beer Servings", title="Top 25 Beer Consuming Countries") + coord_flip() + theme_clean() + 
+ggplot(top25_beer,aes(x=reorder(country,beer_servings),y=beer_servings)) + geom_col(fill="orange") + labs(x="Country", y="Beer Servings", title="Top 25 Beer Consuming Countries") + coord_flip() + theme_clean() + 
   NULL
 
 

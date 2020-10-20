@@ -68,14 +68,14 @@ ggplot(data = companies_by_sector, mapping = aes(x=number_of_companies, y=reorde
 
 
 ```
-## Finding stock prices for 8 securities
+## Finding stock prices for FAANG securities
 
 ```{r get_price_data, message=FALSE, warning=FALSE, cache=TRUE}
 
-myStocks <- c("AAPL","JPM","DIS","DPZ","ANF","TSLA","XOM","SPY" ) %>%
+myStocks <- c("FB","AMZN","AAPL","NFLX","GOOG","SPY" ) %>%
   tq_get(get  = "stock.prices",
-         from = "2010-01-01",
-         to   = "2020-09-25") %>%
+         from = "2015-01-01",
+         to   = "2020-10-19") %>%
   group_by(symbol) 
 # examine the structure of the resulting data frame
 myStocks %>%
@@ -133,8 +133,8 @@ dp <- ggplot(data = myStocks_monthly_returns, mapping = aes(x=monthly_returns)) 
 dp
 
 ggplot(myStocks_monthly_returns, aes(x=monthly_returns)) +
-  geom_density(fill = "lightgreen", alpha = 0.6) +
-  labs(title = "Monthly returns of portfolio since 01 January 2010", x = "Monthly returns", y = "Density") +
+  geom_density(fill = "green", alpha = 0.8) +
+  labs(title = "Monthly returns of portfolio since 01 January 2015", x = "Monthly returns", y = "Density") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) + 
   facet_wrap(~symbol, scales='fixed') +
@@ -144,7 +144,7 @@ ggplot(myStocks_monthly_returns, aes(x=monthly_returns)) +
 
 ## Comment on riskiness of selected securities 
 
-We can infer that Tesla (TSLA) is the most risky stock given it has the highest standard deviation, displayed by its monthly returns having the fattest tails and shortest peak at the mean value. By contrast, SPY (S&P500 ETF) appears the least risky stock given it displays the lowest standard deviation when comparing monthly returns.
+We can infer that FAANG stocks are relatively risky compared to the SPY (S&P500 ETF) given the fatter tails and wider range of monthly returns recorded over this period. The SPY appears the least risky stock given it displays the lowest standard deviation when comparing monthly returns.
 
 ## Plotting risk and reward for a stock
 
@@ -158,4 +158,4 @@ p
 ```
 ## Comment on above graph
 
-From the graph we can see that ANF is the furthest below the trend line, indicating that its returns are much less than expected given the risk a shareholders bears when holding this stock. On the other hand, DPZ seems to strongly outperform given its riskiness.
+From the graph we can see that AMZN generates the highest risk-adjusted returns given that it is much higher than the trendline. Intuitively, investors in both AMZN and AAPL bear very similar risk, as measured by the standard deviation of returns, but have generated superior returns from the AMZN stock.

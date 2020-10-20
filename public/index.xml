@@ -55,13 +55,13 @@ summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     </item>
     
     <item>
-      <title>about</title>
+      <title>About Aman</title>
       <link>/projects/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/about/</guid>
-      <description>About MeThis is a page about me!
-</description>
+      <description>About MeHello, welcome to my portfolio website. My name is Aman, a 22 year old British MFA student at London Business School. Below is a high level overview of my background:
+Nationality: BritishWhere I have lived: Maidenhead (a town 30 miles West of London) from ages 0-18 and then London since starting my undergraduate degree! Yes, I know I am a very global citizen at this point(!</description>
     </item>
     
     <item>
@@ -71,6 +71,16 @@ summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
       
       <guid>/projects/project5/</guid>
       <description>Executive SummaryThe given data set allowed us to explore the Airbnb in Singapore and its special characteristics in detail. In order to derive meaningful statements in a comprehensive way we performed various operations in the beginning. These measures included the elimination of columns not related to our desired outcome, transformation of columns into workable data, elimination of extreme outliers as well as the creation of new columns.</description>
+    </item>
+    
+    <item>
+      <title>Analysing the US Treasury Yield Curve</title>
+      <link>/projects/project6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project6/</guid>
+      <description>First, we use the tidyquant package to download monthly rates for different durations.
+# Get a list of FRED codes for US rates and US yield curve; choose monthly frequency# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MStickers &amp;lt;- c(&amp;#39;TB3MS&amp;#39;, # 3-month Treasury bill (or T-bill)&amp;#39;TB6MS&amp;#39;, # 6-month&amp;#39;GS1&amp;#39;, # 1-year&amp;#39;GS2&amp;#39;, # 2-year, etc....&amp;#39;GS3&amp;#39;,&amp;#39;GS5&amp;#39;,&amp;#39;GS7&amp;#39;,&amp;#39;GS10&amp;#39;,&amp;#39;GS20&amp;#39;,&amp;#39;GS30&amp;#39;) #.... all the way to the 30-year rate# Turn FRED codes to human readable variablesmyvars &amp;lt;- c(&amp;#39;3-Month Treasury Bill&amp;#39;,&amp;#39;6-Month Treasury Bill&amp;#39;,&amp;#39;1-Year Treasury Rate&amp;#39;,&amp;#39;2-Year Treasury Rate&amp;#39;,&amp;#39;3-Year Treasury Rate&amp;#39;,&amp;#39;5-Year Treasury Rate&amp;#39;,&amp;#39;7-Year Treasury Rate&amp;#39;,&amp;#39;10-Year Treasury Rate&amp;#39;,&amp;#39;20-Year Treasury Rate&amp;#39;,&amp;#39;30-Year Treasury Rate&amp;#39;)maturity &amp;lt;- c(&amp;#39;3m&amp;#39;, &amp;#39;6m&amp;#39;, &amp;#39;1y&amp;#39;, &amp;#39;2y&amp;#39;,&amp;#39;3y&amp;#39;,&amp;#39;5y&amp;#39;,&amp;#39;7y&amp;#39;,&amp;#39;10y&amp;#39;,&amp;#39;20y&amp;#39;,&amp;#39;30y&amp;#39;)# by default R will sort these maturities alphabetically; but since we want# to keep them in that exact order, we recast maturity as a factor # or categorical variable, with the levels defined as we wantmaturity &amp;lt;- factor(maturity, levels = maturity)# Create a lookup datasetmylookup&amp;lt;-data.</description>
     </item>
     
     <item>

@@ -94,26 +94,26 @@ disqusShortname = "amansharmaportfolio"
       url = "projects/about"
       
     [[params.tiles.showcase]]
-      title = "Project 1: Gender Pay Gap"
-      subtitle = "Analysing Omega Data"
+      title = "Project 1: Gender Pay Gap Analysis at Omega"
+      subtitle = "Coincidence or Discrimination?"
       image = "boardroom-1024x440.jpeg"
       url = "projects/project1"
 
     [[params.tiles.showcase]]
-      title = "Project 2: Drinks"
-      subtitle = "Analysis of drinks consumed by country"
+      title = "Project 2: Who Drinks What?"
+      subtitle = "Country Analysis of Drinks Consumed"
       image = "bar.jpeg"
       url = "projects/project2"
 
     [[params.tiles.showcase]]
-      title = "Project 3: Financial Analysis"
-      subtitle = "Stock Market Returns"
-      image = "market.jpg"
+      title = "Project 3: The Rise of Big Tech"
+      subtitle = "Analysing Stock Market Returns"
+      image = "FAANG-Stocks.jpg"
       url = "projects/project3"
 
     [[params.tiles.showcase]]
-      title = "Project 4: Trump Approvals"
-      subtitle = "Polling Analysis"
+      title = "Project 4: A Love/Hate Relationship?"
+      subtitle = "Analysis of Trump's Polling Approvals"
       image = "trumpapproval.jpeg"
       url = "projects/project4"
       
@@ -123,6 +123,11 @@ disqusShortname = "amansharmaportfolio"
       image = "singapore.jpg"
       url = "projects/project5"
 
+      [[params.tiles.showcase]]
+      title = "Project 6: Can we predict a recession?"
+      subtitle = "Analysis of yield curve inversions"
+      image = "WallStreet.jpg"
+      url = "projects/project6"
 
   [params.blog]
     # All blogs defined in their own files. You can find example blogs
@@ -137,8 +142,8 @@ disqusShortname = "amansharmaportfolio"
     title = "Who am I?"
     subtitle = """Hello! My name is Aman Sharma. I come from a British Indian family, having lived in South East England my entire life. Prior to studying at London Business School, I studied BSc Economics at University College London. Welcome to my portfolio website!"""
     image = "AmanSharma.jpg"
-    buttonText = "Get Started"
-    url = "projects"
+    buttonText = "Read My Story"
+    url = "projects/about"
 
 
   # Contact section
