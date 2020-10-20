@@ -73,6 +73,14 @@
   </url>
   
   <url>
+    <loc>/projects/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/projects/project5/</loc>
+  </url>
+  
+  <url>
     <loc>/projects/project3/</loc>
   </url>
   
@@ -86,6 +94,10 @@
   
   <url>
     <loc>/projects/</loc>
+  </url>
+  
+  <url>
+    <loc>/projects/project4/</loc>
   </url>
   
 </urlset>

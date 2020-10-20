@@ -7,6 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>about</title>
+      <link>/projects/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/about/</guid>
+      <description>About MeThis is a page about me!
+</description>
+    </item>
+    
+    <item>
+      <title>Airbnb Analysis: Singapore</title>
+      <link>/projects/project5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project5/</guid>
+      <description>Executive SummaryThe given data set allowed us to explore the Airbnb in Singapore and its special characteristics in detail. In order to derive meaningful statements in a comprehensive way we performed various operations in the beginning. These measures included the elimination of columns not related to our desired outcome, transformation of columns into workable data, elimination of extreme outliers as well as the creation of new columns.</description>
+    </item>
+    
+    <item>
       <title>Financial Analysis</title>
       <link>/projects/project3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -27,13 +46,22 @@ Loading the dataomega &amp;lt;- read_csv(here::here(&amp;quot;data&amp;quot;, &
     </item>
     
     <item>
-      <title>Project 2</title>
+      <title>Project 1</title>
       <link>/projects/project2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/project2/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-When you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</description>
+      <description>Where Do People Drink The Most Beer, Wine And Spirits?library(fivethirtyeight)data(drinks)We have one column with character data which contains country names and four columns with numerical data which contains the amount of each type of alcohol consumed in these countries. There are no missing variables.
+glimpse(drinks)## Rows: 193## Columns: 5## $ country &amp;lt;chr&amp;gt; &amp;quot;Afghanistan&amp;quot;, &amp;quot;Albania&amp;quot;, &amp;quot;Algeria&amp;quot;, &amp;quot;...## $ beer_servings &amp;lt;int&amp;gt; 0, 89, 25, 245, 217, 102, 193, 21, 261.</description>
+    </item>
+    
+    <item>
+      <title>Trump Analysis</title>
+      <link>/projects/project4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project4/</guid>
+      <description>knitr::opts_chunk$set(message = FALSE, warning = FALSE, tidy=FALSE, # display code as typedsize=&amp;quot;small&amp;quot;) # slightly smaller font for codeoptions(digits = 3)# default figure sizeknitr::opts_chunk$set(fig.width=6.75, fig.height=6.75,fig.align = &amp;quot;center&amp;quot;)Trump’s Approval Margins# Import approval polls dataapproval_polllist &amp;lt;- read_csv(here::here(&amp;#39;data&amp;#39;, &amp;#39;approval_polllist.csv&amp;#39;))glimpse(approval_polllist)## Rows: 15,619## Columns: 22## $ president &amp;lt;chr&amp;gt; &amp;quot;Donald Trump&amp;quot;, &amp;quot;Donald Trump&amp;quot;, &amp;quot;Donald Trump&amp;quot;,...## $ subgroup &amp;lt;chr&amp;gt; &amp;quot;All polls&amp;quot;, &amp;quot;All polls&amp;quot;, &amp;quot;All polls&amp;quot;, &amp;quot;All pol.</description>
     </item>
     
   </channel>

@@ -52,8 +52,8 @@ disqusShortname = "amansharmaportfolio"
       url = "projects"
 
     [[params.navigation.links]]
-      name = "Blog"
-      url = "blogs"
+      name = "About Me"
+      url = "projects/about"
 
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
@@ -77,7 +77,7 @@ disqusShortname = "amansharmaportfolio"
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "Hi, my name is Aman Akshay Sharma"
+    title = "Hi, my name is Aman Sharma"
     subtitle = "Hello, my name is Aman Sharma. British MFA student at London Business School. Welcome to my portfolio!"
     buttonText = "Check out my work"
 
@@ -87,29 +87,41 @@ disqusShortname = "amansharmaportfolio"
     enable = true
     # Display your showcases here.
     
+      [[params.tiles.showcase]]
+      title = "About Me"
+      subtitle = "Learn more"
+      image = "AmanSharma.jpg"
+      url = "projects/about"
+      
     [[params.tiles.showcase]]
-      title = "Gender Pay Gap"
+      title = "Project 1: Gender Pay Gap"
       subtitle = "Analysing Omega Data"
-      image = "pic01.jpg"
+      image = "boardroom-1024x440.jpeg"
       url = "projects/project1"
 
     [[params.tiles.showcase]]
-      title = "Project 2"
-      subtitle = "Testing 2"
-      image = "pic02.jpg"
+      title = "Project 2: Drinks"
+      subtitle = "Analysis of drinks consumed by country"
+      image = "bar.jpeg"
       url = "projects/project2"
 
     [[params.tiles.showcase]]
-      title = "Financial Analysis"
+      title = "Project 3: Financial Analysis"
       subtitle = "Stock Market Returns"
-      image = "pic03.jpg"
+      image = "market.jpg"
       url = "projects/project3"
 
     [[params.tiles.showcase]]
-      title = "Trump Approvals"
+      title = "Project 4: Trump Approvals"
       subtitle = "Polling Analysis"
-      image = "pic04.jpg"
+      image = "trumpapproval.jpeg"
       url = "projects/project4"
+      
+       [[params.tiles.showcase]]
+      title = "Project 5: Visiting Singapore?"
+      subtitle = "AirBnb Analysis"
+      image = "singapore.jpg"
+      url = "projects/project5"
 
 
   [params.blog]
@@ -124,6 +136,7 @@ disqusShortname = "amansharmaportfolio"
     enable = true
     title = "Who am I?"
     subtitle = """Hello! My name is Aman Sharma. I come from a British Indian family, having lived in South East England my entire life. Prior to studying at London Business School, I studied BSc Economics at University College London. Welcome to my portfolio website!"""
+    image = "AmanSharma.jpg"
     buttonText = "Get Started"
     url = "projects"
 
@@ -169,20 +182,15 @@ disqusShortname = "amansharmaportfolio"
     enable = true
     copyright = "Aman Sharma"
 
-    # Uses font awesome icons
-    [[params.footer.social]]
-      icon = "fa-twitter"
-      url= "https://www.twitter.com"
-      label = "Twitter"
 
     [[params.footer.social]]
       icon = "fa-facebook"
-      url= "https://www.facebook.com"
+      url= "https://www.facebook.com/aman.akshay.sharma"
       label = "Facebook"
 
     [[params.footer.social]]
       icon = "fa-instagram"
-      url= "https://www.instagram.com"
+      url= "https://www.instagram.com/amanakshays"
       label = "Instagram"
     
     [[params.footer.social]]
@@ -192,10 +200,7 @@ disqusShortname = "amansharmaportfolio"
 
     [[params.footer.social]]
       icon = "fa-linkedin"
-      url= "https://www.linkedin.com"
+      url= "https://www.linkedin.com/in/amanakshaysharma"
       label = "LinkedIn"
 
-    [[params.footer.quicklinks]]
-      text = "Design: "
-      url= "https://www.html5up.net"
-      alt = "HTML5 UP"
+

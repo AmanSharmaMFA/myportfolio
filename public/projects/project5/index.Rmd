@@ -1,0 +1,671 @@
+---
+title: "Airbnb Analysis: Singapore"
+author: "Group 37"
+date: "20/10/2020"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(GGally)
+library(readxl)
+library(here)
+library(skimr)
+library(janitor)
+library(broom)
+library(tidyquant)
+library(infer)
+library(openintro)
+library(tidyquant)
+library(reshape2)
+library(leaflet)
+library(ggfortify)
+```
+
+# Executive Summary
+
+The given data set allowed us to explore the Airbnb in Singapore and its special characteristics in detail. In order to derive meaningful statements in a comprehensive way we performed various operations in the beginning. These measures included the elimination of columns not related to our desired outcome, transformation of columns into workable data, elimination of extreme outliers as well as the creation of new columns. 
+
+To develop a better understanding of our data set, we started to perform various analysis including graphical visualization. Not surprisingly, our results show that the Central Region has the highest median price. It accounts for many mega cities that the center of the city is the most exclusive and expensive area. Accordingly, the Central Region scores indeed highest in review score of location. However, in the category review score of rating Central Region is not able to maintain its premier position - the North Region takes the lead. In our last analysis we derived the median price per accommodates for the different room types for each region. The room type Entire home/apt in the North Region shows the highest median price per accommodates. 
+
+We further included an Airbnb map of Singapore in our results in order to allow a better understanding of Airbnb distribution and prices in Singapore. 
+
+In our correlation analysis we identified three highly intracorrelated sets of variables - review scores, number of ratings/reviews and apartment size related variables. The first two sets didn't show a high correlation with price, however, the apartment size related variables showed indeed a significant level of correlation with price. We were able to further increase correlation by using the categorical variable superhost.
+
+Using trial and error we tried to derive variables most useful for our regression analysis. In the end our model only includes the three variables bedrooms, review_scores_rating and room_type and is able to achieve an adjusted R squared of 44%. Including other variables would have increased our adjusted R squared only minimally while adding a lot of complexity, so we chose this rather simple version.
+
+Using our chosen regression model we predict a price of ~$382 for two people/ four night stay in a private room in Singapore. The 95% confidence interval is $369-$395.
+
+
+# Exploratory Data Analysis (EDA) and Data Transformation
+
+## Data Tailoring
+
+```{r, eda}
+listings <- vroom::vroom("http://data.insideairbnb.com/singapore/sg/singapore/2020-06-22/data/listings.csv.gz")
+
+listings %>%
+  glimpse()
+
+listings %>%
+  skim()
+
+
+listings %>%
+  count(neighbourhood,sort=TRUE) %>%
+  filter(n>100)
+
+listings %>%
+  count(neighbourhood_group_cleansed,sort=TRUE)
+
+```
+
+How many variables/columns? How many rows/observations?
+106 variables, 7323 observations
+
+
+Column type frequency: 
+
+* Character: 47 
+
+* Date: 5 
+
+* Logical: 15  
+
+* Numeric: 39 
+
+
+
+Which are categorical or factor variables (numeric or character variables with variables that have a fixed and known set of possible values?
+
+Possible categorical variables:
+
+* neighbourhood_group_cleansed
+
+* property_type
+
+* bed_type
+
+> After having  a first look, not all data variables seem to be relevant for further analysis. Further, we will try to exclude variables with only one distinct value or a very limited number of entries (e.g. square footage) and delete variables with descriptive text that we are currently not able to process considering our R knowledge. 
+
+### Selecting specific variables
+
+```{r, variable_correlations}
+
+# select relevant data columns
+Singapore_data <- listings %>% 
+  select(id, 
+         listing_url,
+         host_response_time,
+         host_response_rate,
+         host_acceptance_rate,
+         host_is_superhost,
+         host_listings_count,
+         host_total_listings_count,
+         host_identity_verified,
+         neighbourhood_group_cleansed,
+         zipcode,
+         latitude,
+         longitude,
+         is_location_exact,
+         property_type,
+         room_type,
+         accommodates,
+         bathrooms,
+         bedrooms,
+         beds,
+         price,
+         security_deposit,
+         cleaning_fee,
+         guests_included,
+         extra_people,
+         minimum_nights,
+         maximum_nights,
+         number_of_reviews,
+         number_of_reviews_ltm,
+         review_scores_rating,
+         review_scores_checkin,
+         review_scores_cleanliness,
+         review_scores_accuracy,
+         review_scores_communication,
+         review_scores_location,
+         review_scores_value,
+         instant_bookable,
+         cancellation_policy,
+         reviews_per_month)
+
+#Change data type of numerical variables
+Singapore_data <- Singapore_data %>%
+  mutate(price = parse_number(price),
+         extra_people = parse_number(extra_people),
+         host_response_rate = parse_number(host_response_rate),
+         host_acceptance_rate = parse_number(host_acceptance_rate),
+         cleaning_fee = parse_number(cleaning_fee),
+         security_deposit = parse_number(security_deposit)
+         )
+
+
+
+```
+### Identifying variables with higher number of NA and possible reasons
+
+```{r Plot_NA, fig.width=10}
+
+# Calculating NA % of variables in dataset
+
+missing_values <- Singapore_data %>% 
+  summarise_all(~(sum(is.na(.))/n())*100) %>% 
+  pivot_longer(cols = id:reviews_per_month, names_to = "variable", values_to = "percentage_missing") %>% 
+  group_by(variable)
+
+# Plotting in descending order
+missing_values %>% 
+           ggplot(aes(x = reorder(variable, percentage_missing), y = percentage_missing, show.legend = FALSE)) +
+           geom_bar(stat = "identity") +
+           coord_flip() +
+           labs(title = "Various variables in AirBnB dataset have <35% missing values", subtitle = "Percentage of NA in AirBnB dataset", y = "Percentage", x = element_blank()) +
+           theme_classic()
+
+```
+> Variables such as "cleaning fee" and "security_deposit" are showing a relatively high percentage of NAs. This may be because no fee was charged, but in our data frame we have NA values. Hence, we are going to amend these to 0 in future analysis. We note that review related variables will require further exploration as there is a high percentage of missing values.
+
+### Handling missing values
+
+```{r, handling_missing_values}
+
+Singapore_data$cleaning_fee[is.na(Singapore_data$cleaning_fee)] <- 0
+Singapore_data$security_deposit[is.na(Singapore_data$security_deposit)] <- 0
+
+
+```
+
+### Property types
+
+```{r, handling_propertytype_missing_values}
+
+# Checking the property type variable
+#skim(listings$property_type)
+
+# Calculating the proportion of each property type
+Singapore_property <- Singapore_data %>%
+count(property_type) %>%
+arrange(desc(n)) %>%
+  mutate(n/sum(n)*100) 
+
+# Finding the top 4 property types 
+Sgp_descproperty <- head(Singapore_property,4)
+
+# Changing the names of of the columns
+colnames(Sgp_descproperty) <- c("Type","Count", "Proportion (%)")
+Sgp_descproperty
+
+# Calculating the total percentage of the four most common variables
+Sgp_descproperty %>%
+  summarise(sum_proportion=sum(`Proportion (%)`))
+
+```
+
+>The four most popular property types are "Apartment", "Condominium", "Serviced Apartment" and "House". Altogether, they account for 84.3% of all property types in Singapore.
+
+### Reducing property types to five categories
+
+```{r, mutating_property_type}
+
+Singapore_data <- Singapore_data %>%
+ mutate(property_type_simplified = case_when(property_type %in% c("Apartment","Condominium", "Serviced apartment","House") ~ property_type,
+                                         TRUE ~ "Other"))
+
+#listings_property
+
+#checking
+Singapore_data %>%
+  count(property_type, property_type_simplified) %>%
+  arrange(desc(n))
+
+```
+> When viewing our data frame, we can see only our four most popular property types and every other type has been categorized as "Other".
+
+
+### Finding the most common values for variable minimum_nights
+
+```{r, finding_minimum_nights}
+
+# Finding the modal value of minimum nights
+Singapore_min_nights <- Singapore_data %>%
+count(minimum_nights) %>%
+mutate(percentage = n/sum(n)*100)%>%
+arrange(desc(n))  
+
+Singapore_min_nights
+
+# Showing the top 25
+Singapore_min_nights %>%
+  filter(n>10)
+
+```
+> By far the most common value for the minimum nights variable is 1, almost applying for 24% of all Airbnb listings in Singapore. It is followed by 3 and 2 nights. These listings are definitely focused on travel purposes, either for tourism or business. 
+
+> Among the rather common values (n > 10), there are several values that stand out and might have another main purpose than hosting travel guests. The listings having minimum nights of 30, 89 and 90 might be primarily for temporary work stays including training and internships or students spending a semester abroad. Listings with minimum nights of 100, 180 and 365 days might be primarily focusing on long-term renting. These landlords might simply use Airbnb as an additional advertising platform hoping to profit from the high level of awareness of Airbnb. 
+
+
+### Defining new variables for an in-depth anaylsis as well as filtering
+
+```{r, new_price_variables}
+
+#Filtering criteria in order to be aligned with the below definition of new variables
+Singapore_price_data <- Singapore_data %>%
+  filter(minimum_nights <= 4,
+         accommodates >= 2,
+         price != 0) %>%
+  
+#Calculating new variable price_4_nights including price, cleaning_fee, guests_included, extra_people
+   mutate(
+         price_4_nights = case_when(guests_included >= 2 ~ (price*4+cleaning_fee),
+                  TRUE ~ ((price+extra_people)*4+cleaning_fee)),
+         log_price_4_nights = log(price_4_nights),
+         log_price = (log(price)))
+```
+
+## Further data exploration (EDA)
+
+### Distribution of AirBnB prices in different regions of Singapore
+
+```{r, median different regions }
+
+#Focusing on median
+median_distr_price <- Singapore_price_data %>% 
+#Selecting the relevant variables 
+  select(neighbourhood_group_cleansed, price) %>%
+#Order by region of the city  
+  group_by(neighbourhood_group_cleansed) %>% 
+#Calculate the median for each region
+  summarize(median = median(price)) %>% 
+#Arrange in descending order
+  arrange(median)
+
+#Plotting median price by region 
+ggplot(data = median_distr_price, aes(x = reorder(neighbourhood_group_cleansed, median), y = median)) +
+  geom_bar(stat="identity") +
+  labs(title = "AirBnB prices differ in different regions", subtitle = "Median price per night in Singapore by region", x = element_blank(), y = "Median price per night ($)") +
+  #Change the coordinates
+  coord_flip() +
+  #theme 
+  theme_linedraw()
+```
+
+> Central region places first in this analysis with a median price of around $140 per night. Last places West Region with a median price below $75 per night. To understand the distribution of prices, we will analyse other key distribution values in the following sections.  
+
+### In-depth analysis of prices in different regions of Singapore
+
+```{r, fig.width = 8, echo = FALSE}
+# Calculate mean, median,minimum, maximum and standard deviation of the prices for each region
+price_region_sgp <- Singapore_price_data %>%
+  group_by(neighbourhood_group_cleansed) %>%
+  summarise(median_price = median(price), mean_price = mean(price),
+            max_price = max(price), min_price = min(price), 
+            sd_price = sd(price), count = n()) %>% 
+  arrange(desc(median_price)) 
+
+price_region_sgp
+
+```
+
+> Looking at our table, two regions stand out - Central region and West region. For these two regions, a large gap exists between median price and mean price. Further, both regions have a very high standard deviation and maximum prices are extremely high. There might be three main reasons for these results - fake listings, extremely luxurious apartments and hosts that increase prices extremely because they  don't want to rent out their apartments at the moment. In order to make the data more comparable between the different regions, we will remove these extreme values. Therefore, the next step is to identify the appropriate threshold for the two regions and filter out the extreme prices.
+
+
+```{r, price_central}
+
+#Distribution of prices per night in Central region
+Singapore_central <- Singapore_price_data %>%
+  filter(neighbourhood_group_cleansed == "Central Region" | neighbourhood_group_cleansed == "West Region")
+
+ggplot(Singapore_central, aes(x=price)) + 
+  geom_histogram() + 
+  theme_bw() + 
+  facet_wrap(~neighbourhood_group_cleansed) +
+  labs(title="The distribution of the prices per night", subtitle= "Central Region and West Region", x="Price per night", y="Count")
+
+```
+
+```{r, price_3000}
+
+Singapore_price_final <- Singapore_price_data %>%
+  filter(price < 3000) 
+
+new_price_region_sgp <- Singapore_price_final %>%
+  group_by(neighbourhood_group_cleansed) %>%
+  summarise(median_price = median(price), mean_price = mean(price),
+            max_price = max(price), min_price = min(price), 
+            sd_price = sd(price), count = n()) %>% 
+  arrange(desc(median_price)) 
+
+new_price_region_sgp
+
+```
+
+> After filering out the extremly high prices our results are more uniform across the data set with respect to standard deviation and maximum prices in the specific regions. Standard deviation of the Central region is still considerably higher than other regions but it can be explained by the fact that it is the most touristy and expensive location in Singapore with largest price range.
+
+> Let us now plot graphs to better see the price ranges in different regions
+
+```{r, price_region_graphs}
+
+Singapore_price_final %>%
+  group_by(neighbourhood_group_cleansed) %>%
+  ggplot(aes(x = factor(neighbourhood_group_cleansed), y = price, fill = neighbourhood_group_cleansed))+
+#Add boxplot to show the distribution better
+geom_boxplot(alpha = 0.5) +
+scale_fill_manual(values=c("blue", "red", "yellow", "green", "pink")) +
+#Add labels
+  labs(title = "Central region has the greatest range of prices",
+       subtitle = "Distribution of prices for each neighbourhood group",
+       x = "Region in Singapore",
+       y = "Price($)") +
+theme_classic() +
+#Remove legend
+  theme(legend.position = 'none')
+
+```
+
+> Central region has the greatest range of prices. Further, Central Region has the highest median price, followed by East region. The West Region is the cheapest region, showing the lowest median price. Considering the convenient and indeed central location of Central Region, the observations are not completely surprising. It happens for many mega cities that the center of the city is the most exclusive and expensive area. 
+
+> It would be further interesting to know if the review scores also influence the prices in the different regions. Let's have a look at the different ratings per region.
+
+```{r, region_rating}
+#Select appropriate rating variables per region
+review_score <- Singapore_price_final %>%
+  select(review_scores_location, review_scores_rating, neighbourhood_group_cleansed) %>% 
+#Remove missing values
+  filter(review_scores_location != "NA") %>% 
+  filter(review_scores_rating != "NA") %>%
+#Calculate mean for both rating categories for each region
+  group_by(neighbourhood_group_cleansed) %>% 
+  summarise(score_rating_mean = mean(review_scores_rating), 
+            score_location_mean = mean(review_scores_location*10)) %>%
+#Turn around structure of the data set
+  melt(id.vars = "neighbourhood_group_cleansed") 
+#Changing names
+review_score$variable <- factor(review_score$variable, labels = c("Review score of rating", "Review score of location"))
+
+#Plotting
+ggplot(review_score, aes(x= neighbourhood_group_cleansed, y = value, fill = variable))+
+  geom_bar(stat="identity")+
+#Split by the two variables
+  facet_grid(~variable) +
+#Adapt y-axis for mean_score_location
+  scale_y_continuous(sec.axis = sec_axis(~./10, name = " ")) +
+#Add titles
+  labs(title = "Different leaders in the two selected review categories",
+       subtitle = "Mean review scores of both rating and location for each region",
+       x = "Regions of Singapore",
+       y = " ") +
+#Add theme
+theme_classic()+
+#Change x axis text angle and remove legend
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1),legend.position = "none")
+```
+
+> It's interesting to see that Central Region scores indeed highest in review score of location - it has to be the best location for Singapore. However, North Region leads in review score of rating. This is only partly reflected in the median price where North region placed third before. Central Region has the lowest score regarding review score of rating. A hypothesis might be that this relatively low score is actually caused by the high median price per night in this area. People believe that the high price is a sign for a high quality of accommodation, however, price is mainly justified by superb location. Disappointed by the experienced standards of the appartment, some guests might state a relatively low score for review score of rating.
+
+### Differences between room types and their effects  
+
+> Room type might also influence the price. We would like to find out if their are any differences in the number of accommodates between the different room types and which room type has the higest average price.
+
+```{r, number of accommodates}
+#Analysis of the relationship between room type and accommodates
+
+sgp_accommodates <- Singapore_price_final %>% 
+  select(accommodates, room_type) %>%
+  group_by(room_type, accommodates) %>%
+  count()
+
+#Plotting
+  ggplot(sgp_accommodates, aes(x = accommodates, y = n, fill = room_type))  +
+  geom_bar(stat = "identity") +
+#Split by room type
+  facet_grid(~room_type)+
+#Only checking for the most common accommodate numbers, between 1 - 10
+  xlim(1,10)+
+#Add titles
+  labs(title = "The majority of apartments is for 2 persons across all room types",
+       subtitle = "Distribution of number of persons",
+       x = "Accommodates",
+       y = "count")+
+#Add theme
+  theme_classic()+
+#Delete legend
+  theme(legend.position = 'none')
+
+```
+
+> Firstly, the graph actually shows very well that the most common room type is "Private Room" by far. In addition, the graph states that most of the Airbnb offerings are for two people. Only for "Entire home/apt" there is a relatively high share of other number of accommodates.
+
+> Further, it would be interesting to know how prices differ between different room types. This will be our next analysis
+
+
+```{r, price_room_type}
+
+#Use boxplot to show distribution for the prices for each room type
+sgp_price_roomtype <- Singapore_price_final %>%
+  select(price, room_type)
+
+ggplot(sgp_price_roomtype, aes(x = factor(room_type), y = price, fill = room_type))+
+#Add boxplot to show the distribution better
+geom_boxplot(alpha = 0.5) +
+scale_fill_manual(values=c("blue", "red", "yellow", "green")) +
+#Add labels
+  labs(title = "Entire home/apt is the room type with the highest median price",
+       subtitle = "Distribution of prices for each room type",
+       x = "Different room types",
+       y = "Price($)") +
+theme_classic() +
+#Remove legend
+  theme(legend.position = 'none')
+
+
+
+```
+
+> Not surprisingly "Entire home/apt" places first in this category. To remove some of the bias, in the next analysis we will divide the price by the number of guests in order to ensure more compararbility.
+
+> Price per accommodate for different room types
+
+```{r, price_acco_room}
+
+#Use boxplot to show distribution for the prices for each room type
+sgp_price_roomtype_acco <- Singapore_price_final %>%
+  select(accommodates, price, room_type) %>%
+  mutate(price_accommodates = price/accommodates)
+
+ggplot(sgp_price_roomtype_acco, aes(x = factor(room_type), y = price_accommodates, fill = room_type)) +
+#Add boxplot to show the distribution
+geom_boxplot(alpha = 0.5)+
+#Add labels
+  labs(title = "Entire home/apt is the room type with the highest median price",
+       subtitle = "Distribution of prices per person for each room type",
+       x = "Different room types",
+       y = "Price($)") +
+scale_fill_manual(values=c("blue", "red", "yellow", "green")) +
+theme_classic() +
+#Remove legend
+  theme(legend.position = 'none')
+
+```
+
+> "Entire home/apt" still has the highest median price despite adapting for number of guests. However, this more realistic view shows that especially the room type "Hotel room" positions not far behind. 
+
+> Last, we would like to bring all together - different regions of Singapore, different prices and different number of guests.
+
+```{r, price_acco_room_region, fig.width = 9}
+
+#Group by regions and room types
+sgp_price_roomtype_region <- Singapore_price_final %>%
+  select(accommodates, price, room_type, neighbourhood_group_cleansed) %>%
+  group_by(neighbourhood_group_cleansed, room_type) %>%
+#Calculate median
+  summarise(median_price_accommodates = median(price/accommodates))
+
+#Plotting
+ggplot(sgp_price_roomtype_region, aes(x = room_type, y = median_price_accommodates, xaxt = "n", fill = room_type)) +
+geom_bar(stat = "identity") +
+#Show different room types for each region
+facet_grid(~neighbourhood_group_cleansed) +
+#Add labels
+  labs(title = "",
+       subtitle = "",
+       x = "",
+       y = "Median price ($)") +
+#Add theme
+theme_classic() +
+#Delete x-axis labels
+theme(axis.text.x = element_blank()) +
+#Change the legend name
+scale_fill_discrete(name="Room Type")
+
+
+```
+
+> The room type Entire home/apt in the North Region shows the highest median price per guest. It's further interesting to see that in North-East Region, North Region and West Region our used data set shows no Hotel room listings. 
+
+## Correlations
+
+> Select relevant numeric variables for correlation analysis.
+
+```{r, correlation_variables}
+
+Singapore_correlation <- Singapore_price_final %>% 
+  select(price, 
+         price_4_nights,
+         log_price_4_nights,
+         host_response_rate, 
+         review_scores_rating,
+         review_scores_checkin,
+         review_scores_cleanliness,
+         review_scores_accuracy,
+         review_scores_communication,
+         review_scores_location,
+         review_scores_value,
+         number_of_reviews, 
+         number_of_reviews_ltm,
+         reviews_per_month,
+         host_acceptance_rate, 
+         host_listings_count, 
+         accommodates, 
+         bedrooms, 
+         beds, 
+         bathrooms, 
+         security_deposit, 
+         cleaning_fee, 
+         guests_included, 
+         extra_people
+         )
+
+
+```
+
+> Create a corelation matrix
+
+```{r, corrleation_matrix}
+#create a correlation matrix and then melt
+correlation_matrix <- round(cor(Singapore_correlation %>% select(-log_price_4_nights), use = "pairwise.complete.obs"),2)
+correlation_matrix_melt <- melt(correlation_matrix)
+#Plotting
+ggplot(correlation_matrix_melt, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile() + 
+  labs(title = "Correlation Map", x = "", y = "", fill = "Corr. Coeff.") +
+  scale_fill_gradient(low = "white", high = "blue") +
+  theme(axis.text.x = element_text(angle = 90),
+        axis.text = element_text(size=7)) 
+```
+
+> Looking at the correlation matrix, it is possible to identify three different rather highly correlated set of variables. 1. different rating variables 2. different time and amount related review variables 3. bathrooms/ beds/ bedrooms/ accommodates. However, at least for the first two sets the correlation with the price does not seem very high. Let's confirm this for the first two set of variables before having a deeper analysis of the relationship of the third set of varibables and prices.
+
+```{r, correlation_sets_price}
+
+#Correlation values rating variables and price
+rating_values <- Singapore_correlation %>%
+  select(price, review_scores_rating:review_scores_value) %>%
+  cor(use = "pairwise.complete.obs")  %>%
+  round(2)
+
+rating_values
+
+#Correlation values time and amount related review variables and price
+time_amount_values <- Singapore_correlation %>%
+  select(price, number_of_reviews:reviews_per_month) %>%
+  cor(use = "pairwise.complete.obs")  %>%
+  round(2)
+
+time_amount_values 
+
+```
+
+> Checking the exact correlation values supports our hypothesis that the correlation in between each of the two sets of variables is indeed significant, however, none of them is significantly related to price. Besides, it is interesting to see that the price is slightly negatively correlated to the number of reviews/ number of reviews in the last twelve months.
+
+> Now we would like to analyse the relationship between the third set of variables (bathrooms/ beds/ bedrooms/ accommodates) and price. We would further like to include the categorical variable "is_superhost" in our analysis, as we could well imagine a further positive influence of this variable on the respective correlation. 
+
+```{r, third_set_price, fig.width = 12}
+
+#Selecting variables
+price_third_set_var <- Singapore_price_final %>%
+  select(host_is_superhost, price, bedrooms, beds, accommodates, bathrooms) %>%
+  filter(host_is_superhost == TRUE | host_is_superhost == FALSE) 
+#Plotting
+  GGally::ggpairs(price_third_set_var, aes(color = host_is_superhost, alpha = 0.3)) + 
+    labs(title = "Multiple variables related to apartment size and amenities highly correlated with price", subtitle = "")
+  
+```
+
+> We can state that relationships between the price and the other variables don't seem to be linear when checking the scatterplots. The price plots show that prices for Airbnb listings can be very similar although number of bedrooms, bathrooms and beds vary signifcantly. Further, we can see that our idea of including "host_is_superhost" was very good. The correlations are indeed conditional on the value of this categorical variable.
+   
+
+# Mapping
+```{r, mapping}
+
+#mapping
+coloured_price <- colorNumeric(palette = c("darkgreen", "yellow", "red3"), Singapore_price_final$price)
+leaflet(Singapore_price_final) %>%
+#control zoom function
+  addTiles(options = providerTileOptions(minZoom = 6)) %>%
+   setView(lng = mean(Singapore_price_final$longitude),
+           lat = mean(Singapore_price_final$latitude), 
+           zoom = 6) %>%
+  addCircleMarkers(
+                   lng = ~longitude,
+                   lat = ~latitude,
+                   radius = 1,
+#add color depending on price
+                   color = ~coloured_price(price),
+                   fillOpacity = 0.5,
+                   popup = ~listing_url,
+                   label =  ~property_type) %>%
+  addLegend("bottomright", pal = coloured_price, values = ~price,
+    title = "Price of Airbnb",
+    labFormat = labelFormat(prefix = "$"),
+    opacity = 1)
+```
