@@ -1,5 +1,5 @@
 ---
-title: "Trump Analysis"
+title: "Project 4"
 author: "Aman Sharma"
 date: "20.10.2020"
 output:
@@ -12,7 +12,7 @@ output:
     code_folding: show
 ---
 
-```{r, setup}
+```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 
   warning = FALSE, 
@@ -42,9 +42,9 @@ library(vroom)
 library(tidyquant)
 ```
 
+# Analysis Trump's Approval
 
-
-# Trump's Approval Margins
+In this project we will be analysing polls to better understand how sentiment changes for President Trump over time.
 
 ```{r, cache=TRUE}
 # Import approval polls data
@@ -106,5 +106,61 @@ net_approval_week34 <- net_approval_weekly %>%
 net_approval_week34
 
 ```
+
 Looking at the graph, the confidence interval of the later week (week 34) is larger. There might be two reasons for this development, standard deviation and sample size. Variability might be increased and/ or the sample size might be reduced. Checking the table, we are able to identify that standard deviation indeed increased and sample size indeed decreased. 
+
+```{r, cache=TRUE}
+
+data_obama <- vroom("00c -Pres-44-Obama - Job Approval - National-poll-responses-clean (1).tsv")
+data_obama
+
+glimpse(data_obama)
+skim(data_obama)
+
+```
+
+In this project we will be analysing polls to better understand how sentiment changes for former President OBama over time.
+
+## Create a plot
+
+```{r, cache=TRUE}
+#Adding net approval
+
+obama_approval <- data_obama %>%
+  mutate(net_approval = Approve - Disapprove)
+
+#Calculating statistics
+obama_approval_weekly <- obama_approval %>%
+  group_by(week_number = isoweek(end_date), year=year(end_date)) %>% 
+  summarise(mean_app = mean(net_approval, na.rm = TRUE), sd_app = sd(net_approval, na.rm = TRUE), count_app = n(), se_app = sd_app / sqrt(count_app), t_critical = qt(0.975, count_app-1) , margin_of_error = t_critical * se_app, app_low = mean_app - margin_of_error, app_high = mean_app + margin_of_error) %>%
+  filter(count_app>1)
+
+#Plotting
+ggplot(data = obama_approval_weekly, aes(x = week_number,fill=as.factor(year))) + scale_fill_manual(values = c("red","#a1d99b","#66FFFF","#d4b9da","blue","green","yellow","purple","black","lightblue")) + geom_line(aes(y=app_low))+geom_line(aes(y=mean_app)) + 
+  geom_line(aes(y=app_high))+geom_point(aes(y=mean_app)) + facet_wrap(~year) + geom_ribbon(aes(ymin=app_low,ymax=app_high),alpha=0.3)  + geom_hline(yintercept=0, size=1.0, color="orange") + scale_y_continuous(breaks=c(-20,-17.5,-15,-12.5,-10,-7.5,-5,-2.5,0,2.5,5.0,7.5)) + scale_x_continuous() + labs(title="Estimating Net Approval (approve-disapprove) for Barack Obama", subtitle="Weekly average of all polls",x="Week of the year",y="Average net approval (%)" + theme(text = element_text(size = 11),legend.position = "none", panel.background = element_rect(fill = "white", colour = "white", size = 0.5, linetype = "solid"), panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "light grey"), panel.grid.minor = element_line(size = 0.5, linetype = 'solid', colour = " light grey")))
+    
+
+```
+
+```{r trump_margins, echo=FALSE, out.width="100%"}
+knitr::include_graphics(here::here("images", "trump_approval_margin.png"), error = FALSE)
+```
+
+## Compare Confidence Intervals
+
+```{r, cache=TRUE}
+
+#Filtering for week 15 year 2020 in the table
+net_approval_week15 <- net_approval_weekly %>%
+  filter(week_number == 15, year == 2020)
+
+net_approval_week15
+
+#Filtering for week 34 year 2020 in the table
+net_approval_week34 <- net_approval_weekly %>%
+  filter(week_number == 34, year == 2020)
+
+net_approval_week34
+
+```
 

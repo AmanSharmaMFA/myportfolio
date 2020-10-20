@@ -31,8 +31,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/project6/</guid>
-      <description>First, we use the tidyquant package to download monthly rates for different durations.
-# Get a list of FRED codes for US rates and US yield curve; choose monthly frequency# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MStickers &amp;lt;- c(&amp;#39;TB3MS&amp;#39;, # 3-month Treasury bill (or T-bill)&amp;#39;TB6MS&amp;#39;, # 6-month&amp;#39;GS1&amp;#39;, # 1-year&amp;#39;GS2&amp;#39;, # 2-year, etc....&amp;#39;GS3&amp;#39;,&amp;#39;GS5&amp;#39;,&amp;#39;GS7&amp;#39;,&amp;#39;GS10&amp;#39;,&amp;#39;GS20&amp;#39;,&amp;#39;GS30&amp;#39;) #.... all the way to the 30-year rate# Turn FRED codes to human readable variablesmyvars &amp;lt;- c(&amp;#39;3-Month Treasury Bill&amp;#39;,&amp;#39;6-Month Treasury Bill&amp;#39;,&amp;#39;1-Year Treasury Rate&amp;#39;,&amp;#39;2-Year Treasury Rate&amp;#39;,&amp;#39;3-Year Treasury Rate&amp;#39;,&amp;#39;5-Year Treasury Rate&amp;#39;,&amp;#39;7-Year Treasury Rate&amp;#39;,&amp;#39;10-Year Treasury Rate&amp;#39;,&amp;#39;20-Year Treasury Rate&amp;#39;,&amp;#39;30-Year Treasury Rate&amp;#39;)maturity &amp;lt;- c(&amp;#39;3m&amp;#39;, &amp;#39;6m&amp;#39;, &amp;#39;1y&amp;#39;, &amp;#39;2y&amp;#39;,&amp;#39;3y&amp;#39;,&amp;#39;5y&amp;#39;,&amp;#39;7y&amp;#39;,&amp;#39;10y&amp;#39;,&amp;#39;20y&amp;#39;,&amp;#39;30y&amp;#39;)# by default R will sort these maturities alphabetically; but since we want# to keep them in that exact order, we recast maturity as a factor # or categorical variable, with the levels defined as we wantmaturity &amp;lt;- factor(maturity, levels = maturity)# Create a lookup datasetmylookup&amp;lt;-data.</description>
+      <description>US Treasury Yield Curve AnalysisPrior to 2020, the last 7 macroeconomic recessions were preceeded by an inversion of the US government yield curve. We are going to investigate this.
+First, we use the tidyquant package to download monthly rates for different durations.
+# Get a list of FRED codes for US rates and US yield curve; choose monthly frequency# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MStickers &amp;lt;- c(&amp;#39;TB3MS&amp;#39;, # 3-month Treasury bill (or T-bill)&amp;#39;TB6MS&amp;#39;, # 6-month&amp;#39;GS1&amp;#39;, # 1-year&amp;#39;GS2&amp;#39;, # 2-year, etc.</description>
     </item>
     
     <item>
@@ -67,12 +68,13 @@ Loading the dataset#Loading the NYSE datasetnyse &amp;lt;- read_csv(here::here
     </item>
     
     <item>
-      <title>Trump Analysis</title>
+      <title>Project 4</title>
       <link>/projects/project4/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/project4/</guid>
-      <description>knitr::opts_chunk$set(message = FALSE, warning = FALSE, tidy=FALSE, # display code as typedsize=&amp;quot;small&amp;quot;) # slightly smaller font for codeoptions(digits = 3)# default figure sizeknitr::opts_chunk$set(fig.width=6.75, fig.height=6.75,fig.align = &amp;quot;center&amp;quot;)Trump’s Approval Margins# Import approval polls dataapproval_polllist &amp;lt;- read_csv(here::here(&amp;#39;data&amp;#39;, &amp;#39;approval_polllist.csv&amp;#39;))glimpse(approval_polllist)## Rows: 15,619## Columns: 22## $ president &amp;lt;chr&amp;gt; &amp;quot;Donald Trump&amp;quot;, &amp;quot;Donald Trump&amp;quot;, &amp;quot;Donald Trump&amp;quot;,...## $ subgroup &amp;lt;chr&amp;gt; &amp;quot;All polls&amp;quot;, &amp;quot;All polls&amp;quot;, &amp;quot;All polls&amp;quot;, &amp;quot;All pol.</description>
+      <description>Analysis Trump’s ApprovalIn this project we will be analysing polls to better understand how sentiment changes for President Trump over time.
+# Import approval polls dataapproval_polllist &amp;lt;- read_csv(here::here(&amp;#39;data&amp;#39;, &amp;#39;approval_polllist.csv&amp;#39;))glimpse(approval_polllist)## Rows: 15,619## Columns: 22## $ president &amp;lt;chr&amp;gt; &amp;quot;Donald Trump&amp;quot;, &amp;quot;Donald Trump&amp;quot;, &amp;quot;Donald Trump&amp;quot;,...## $ subgroup &amp;lt;chr&amp;gt; &amp;quot;All polls&amp;quot;, &amp;quot;All polls&amp;quot;, &amp;quot;All polls&amp;quot;, &amp;quot;All pol...## $ modeldate &amp;lt;chr&amp;gt; &amp;quot;9/27/2020&amp;quot;, &amp;quot;9/27/2020&amp;quot;, &amp;quot;9/27/2020&amp;quot;, &amp;quot;9/27/20...## $ startdate &amp;lt;chr&amp;gt; &amp;quot;1/20/2017&amp;quot;, &amp;quot;1/20/2017&amp;quot;, &amp;quot;1/20/2017&amp;quot;, &amp;quot;1/21/20.</description>
     </item>
     
   </channel>

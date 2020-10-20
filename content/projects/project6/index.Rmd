@@ -46,6 +46,10 @@ library(leaflet)
 library(ggfortify)
 ```
 
+# US Treasury Yield Curve Analysis
+
+Prior to 2020, the last 7 macroeconomic recessions were preceeded by an inversion of the US government yield curve. We are going to investigate this.
+
 First, we use the `tidyquant` package to download monthly rates for different durations. 
 
 ```{r get_rates, warning=FALSE}

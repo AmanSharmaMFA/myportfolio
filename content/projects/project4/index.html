@@ -1,5 +1,5 @@
 ---
-title: "Trump Analysis"
+title: "Project 4"
 author: "Aman Sharma"
 date: "20.10.2020"
 output:
@@ -14,21 +14,9 @@ output:
 
 
 
-<pre class="r"><code>knitr::opts_chunk$set(
-  message = FALSE, 
-  warning = FALSE, 
-  tidy=FALSE,     # display code as typed
-  size=&quot;small&quot;)   # slightly smaller font for code
-options(digits = 3)
-
-# default figure size
-knitr::opts_chunk$set(
-  fig.width=6.75, 
-  fig.height=6.75,
-  fig.align = &quot;center&quot;
-)</code></pre>
-<div id="trumps-approval-margins" class="section level1">
-<h1>Trump’s Approval Margins</h1>
+<div id="analysis-trumps-approval" class="section level1">
+<h1>Analysis Trump’s Approval</h1>
+<p>In this project we will be analysing polls to better understand how sentiment changes for President Trump over time.</p>
 <pre class="r"><code># Import approval polls data
 approval_polllist &lt;- read_csv(here::here(&#39;data&#39;, &#39;approval_polllist.csv&#39;))
 

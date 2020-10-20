@@ -1,5 +1,5 @@
 ---
-title: "Trump Analysis"
+title: "Project 4"
 author: "Aman Sharma"
 date: "20.10.2020"
 output:
@@ -12,7 +12,7 @@ output:
     code_folding: show
 ---
 
-```{r, setup}
+```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 
   warning = FALSE, 
@@ -42,9 +42,9 @@ library(vroom)
 library(tidyquant)
 ```
 
+# Analysis Trump's Approval
 
-
-# Trump's Approval Margins
+In this project we will be analysing polls to better understand how sentiment changes for President Trump over time.
 
 ```{r, cache=TRUE}
 # Import approval polls data
@@ -106,5 +106,6 @@ net_approval_week34 <- net_approval_weekly %>%
 net_approval_week34
 
 ```
+
 Looking at the graph, the confidence interval of the later week (week 34) is larger. There might be two reasons for this development, standard deviation and sample size. Variability might be increased and/ or the sample size might be reduced. Checking the table, we are able to identify that standard deviation indeed increased and sample size indeed decreased. 
 
