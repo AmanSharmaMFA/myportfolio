@@ -1,5 +1,5 @@
 ---
-title: "Project 1"
+title: "Omega plc's Gender Pay Gap"
 author: "Aman Sharma"
 date: "20/10/2020"
 output:
@@ -48,7 +48,7 @@ library(tidyquant)
 
 # Omega Group plc- Pay Discrimination
 
-Scenario: A sample of 50 employees (24 men, 26 women) at Omega Group Plc showed a 8,700 difference in average salary for men compared to women. 
+**Scenario: A sample of 50 employees (24 men, 26 women) at Omega Group Plc showed a 8,700 difference in average salary for men compared to women.**
 
 We are going to investigate whether this marked difference is indeed significant and whether there is an observable factor (such as experience) that could explain the difference.
 
@@ -59,7 +59,7 @@ omega <- read_csv(here::here("data", "omega.csv"))
 glimpse(omega) # examine the data frame
 ```
 
-## Relationship Salary - Gender ?
+## Does Salary Depend on Gender at Omega?
 
 ```{r, confint_single_valiables}
 # Summary Statistics of salary by gender
@@ -76,8 +76,8 @@ gender_dataframe2 <- gender_dataframe %>%
          upper = mean + ME)
 select(gender_dataframe2,-min, -Q1, -median, -Q3, -max, -missing)
 ```
-
 ## Comment
+
 We can conclude that based on the dataset above, there is a significant difference between the salaries paid to men and women. We can be 95% certain of this because, at this significance level, the two different confidence intervals do not overlap. Therefore it is very unlikely that the difference in salary averages paid to men and women occured by coincidence.
 
 Next, we will conduct a hypothesis test to assess whether our null hypothesis, that salary averages of men and women are not significantly different, is accepted or rejected.
@@ -137,7 +137,7 @@ salarygenderbootstrap %>%
 0.2% chance that this is a coincidence, reject the null hypothesis.  However, we cannot affirm that this significant salary difference is due to discrimination as there may be some other factors involved. Finding out the true causes of the salary gap requires further analyses.
 
 
-## Relationship Experience - Gender?
+## Does Experience Correlate with Gender?
 
 The gender pay gap is definitely clear, but we now need to find out why. We learn that on average, men in the sample have 21 years of experience whereas women have 7 years. Could the level of experience be a strong driver of salary?
 
@@ -196,7 +196,7 @@ gender_experience %>%
 
 All tests above support the rejection of the null hypothesis - a significant difference between the the experience of men and women can be confirmed. This is not contradictory with our previous results. However, it supports the thesis, that salary differences are not necessarily due to gender discrimination, but factors like experience might also have an impact.
 
-## Relationship Salary - Experience ?
+## Understanding the Relationship Between Experience and Salary
 
 We will now investigate whether there is any significant relationship between experience and salary in order to determine whether there is a clear reason explaining Omega's gender pay gap.
 

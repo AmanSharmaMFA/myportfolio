@@ -1,5 +1,5 @@
 ---
-title: "Financial Analysis"
+title: "Project 3"
 author: "Aman Sharma"
 date: "20/10/2020"
 output:
@@ -12,7 +12,7 @@ output:
     code_folding: show
 ---
 
-```{r, setup}
+```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 
   warning = FALSE, 
@@ -42,7 +42,9 @@ library(vroom)
 library(tidyquant)
 ```
 
-# Returns of financial stocks
+# Returns of FAANG stocks
+
+In this project we are going to explore the performance of **FAANG Stocks** *(Facebook, Amazon, Apple, Netflix and Google)* that have earned their notoriety by taking the stock market by storm and rapidly rising to become the most valuable companies out there, with **no sign of slowing down**.
 
 ## Loading the dataset
 
@@ -64,7 +66,7 @@ companies_by_sector <- nyse %>%
 companies_by_sector
 
 #Creating a graph of NYSE companies grouped by sector
-ggplot(data = companies_by_sector, mapping = aes(x=number_of_companies, y=reorder(sector,number_of_companies))) + labs(title="Companies in the NYSE by sector",y="Sector", x="number of companies") + geom_col() + theme_economist_white() + scale_x_continuous(expand = c(0,0))
+ggplot(data = companies_by_sector, mapping = aes(x=number_of_companies, y=reorder(sector,number_of_companies))) + labs(title="Companies in the NYSE by sector",y="Sector", x="number of companies") + geom_col() + theme_calc() + scale_x_continuous(expand = c(0,0))
 
 
 ```
@@ -133,7 +135,7 @@ dp <- ggplot(data = myStocks_monthly_returns, mapping = aes(x=monthly_returns)) 
 dp
 
 ggplot(myStocks_monthly_returns, aes(x=monthly_returns)) +
-  geom_density(fill = "green", alpha = 0.8) +
+  geom_density(fill = "gold", alpha = 0.8) +
   labs(title = "Monthly returns of portfolio since 01 January 2015", x = "Monthly returns", y = "Density") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) + 
@@ -142,7 +144,7 @@ ggplot(myStocks_monthly_returns, aes(x=monthly_returns)) +
 
 ```
 
-## Comment on riskiness of selected securities 
+## There's no reward without risk! 
 
 We can infer that FAANG stocks are relatively risky compared to the SPY (S&P500 ETF) given the fatter tails and wider range of monthly returns recorded over this period. The SPY appears the least risky stock given it displays the lowest standard deviation when comparing monthly returns.
 
@@ -156,6 +158,5 @@ p <- risk_return + geom_text_repel(aes(label=symbol)) + labs(title = "Risk-Rewar
 p
 
 ```
-## Comment on above graph
 
 From the graph we can see that AMZN generates the highest risk-adjusted returns given that it is much higher than the trendline. Intuitively, investors in both AMZN and AAPL bear very similar risk, as measured by the standard deviation of returns, but have generated superior returns from the AMZN stock.

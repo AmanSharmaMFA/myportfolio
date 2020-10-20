@@ -1,5 +1,5 @@
 ---
-title: "Financial Analysis"
+title: "Project 3"
 author: "Aman Sharma"
 date: "20/10/2020"
 output:
@@ -14,21 +14,9 @@ output:
 
 
 
-<pre class="r"><code>knitr::opts_chunk$set(
-  message = FALSE, 
-  warning = FALSE, 
-  tidy=FALSE,     # display code as typed
-  size=&quot;small&quot;)   # slightly smaller font for code
-options(digits = 3)
-
-# default figure size
-knitr::opts_chunk$set(
-  fig.width=6.75, 
-  fig.height=6.75,
-  fig.align = &quot;center&quot;
-)</code></pre>
-<div id="returns-of-financial-stocks" class="section level1">
-<h1>Returns of financial stocks</h1>
+<div id="returns-of-faang-stocks" class="section level1">
+<h1>Returns of FAANG stocks</h1>
+<p>In this project we are going to explore the performance of <strong>FAANG Stocks</strong> <em>(Facebook, Amazon, Apple, Netflix and Google)</em> that have earned their notoriety by taking the stock market by storm and rapidly rising to become the most valuable companies out there, with <strong>no sign of slowing down</strong>.</p>
 <div id="loading-the-dataset" class="section level2">
 <h2>Loading the dataset</h2>
 <pre class="r"><code>#Loading the NYSE dataset
@@ -183,7 +171,7 @@ companies_by_sector</code></pre>
 ## 11 Transportation                         10
 ## 12 Consumer Durables                       8</code></pre>
 <pre class="r"><code>#Creating a graph of NYSE companies grouped by sector
-ggplot(data = companies_by_sector, mapping = aes(x=number_of_companies, y=reorder(sector,number_of_companies))) + labs(title=&quot;Companies in the NYSE by sector&quot;,y=&quot;Sector&quot;, x=&quot;number of companies&quot;) + geom_col() + theme_economist_white() + scale_x_continuous(expand = c(0,0))</code></pre>
+ggplot(data = companies_by_sector, mapping = aes(x=number_of_companies, y=reorder(sector,number_of_companies))) + labs(title=&quot;Companies in the NYSE by sector&quot;,y=&quot;Sector&quot;, x=&quot;number of companies&quot;) + geom_col() + theme_calc() + scale_x_continuous(expand = c(0,0))</code></pre>
 <p><img src="/projects/project3/index_files/figure-html/companies_by_sector-1.png" width="648" style="display: block; margin: auto;" />
 ## Finding stock prices for FAANG securities</p>
 <pre class="r"><code>myStocks &lt;- c(&quot;FB&quot;,&quot;AMZN&quot;,&quot;AAPL&quot;,&quot;NFLX&quot;,&quot;GOOG&quot;,&quot;SPY&quot; ) %&gt;%
@@ -307,7 +295,7 @@ monthly_returns</code></pre>
 dp</code></pre>
 <p><img src="/projects/project3/index_files/figure-html/density_monthly_returns-1.png" width="648" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(myStocks_monthly_returns, aes(x=monthly_returns)) +
-  geom_density(fill = &quot;green&quot;, alpha = 0.8) +
+  geom_density(fill = &quot;gold&quot;, alpha = 0.8) +
   labs(title = &quot;Monthly returns of portfolio since 01 January 2015&quot;, x = &quot;Monthly returns&quot;, y = &quot;Density&quot;) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) + 
@@ -315,8 +303,8 @@ dp</code></pre>
   theme_clean()</code></pre>
 <p><img src="/projects/project3/index_files/figure-html/density_monthly_returns-2.png" width="648" style="display: block; margin: auto;" /></p>
 </div>
-<div id="comment-on-riskiness-of-selected-securities" class="section level2">
-<h2>Comment on riskiness of selected securities</h2>
+<div id="theres-no-reward-without-risk" class="section level2">
+<h2>There’s no reward without risk!</h2>
 <p>We can infer that FAANG stocks are relatively risky compared to the SPY (S&amp;P500 ETF) given the fatter tails and wider range of monthly returns recorded over this period. The SPY appears the least risky stock given it displays the lowest standard deviation when comparing monthly returns.</p>
 </div>
 <div id="plotting-risk-and-reward-for-a-stock" class="section level2">
@@ -326,8 +314,7 @@ risk_return &lt;- ggplot(data = monthly_returns, mapping = aes(y=mean_return, x=
 
 p &lt;- risk_return + geom_text_repel(aes(label=symbol)) + labs(title = &quot;Risk-Reward Tradeoff for Stocks&quot;, x=&quot;Standard Deviation of Return&quot;, y=&quot;Expected Monthly Return&quot;) + geom_smooth(method=lm) + theme_calc()
 p</code></pre>
-<p><img src="/projects/project3/index_files/figure-html/risk_return_plot-1.png" width="648" style="display: block; margin: auto;" />
-## Comment on above graph</p>
+<p><img src="/projects/project3/index_files/figure-html/risk_return_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
 <p>From the graph we can see that AMZN generates the highest risk-adjusted returns given that it is much higher than the trendline. Intuitively, investors in both AMZN and AAPL bear very similar risk, as measured by the standard deviation of returns, but have generated superior returns from the AMZN stock.</p>
 </div>
 </div>

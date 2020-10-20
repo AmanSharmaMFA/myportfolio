@@ -8,7 +8,7 @@
 	<meta name="description" content="Portfolio Description">
 	<meta name="author" content="Aman Akshay Sharma">
 	<meta name="generator" content="Hugo 0.75.1" />
-	<title>Project 1 &middot; Aman Sharma</title>
+	<title>Omega plc&#39;s Gender Pay Gap &middot; Aman Sharma</title>
 	<!-- Stylesheets -->
 	
 	<link rel="stylesheet" href="/css/main.css"/>
@@ -75,7 +75,7 @@
                     <section id="one">
                         <div class="inner">
                             <header class="major">
-                                <h1>Project 1</h1>
+                                <h1>Omega plc&#39;s Gender Pay Gap</h1>
                             </header>
                             
                             
@@ -83,7 +83,7 @@
 
 <div id="omega-group-plc--pay-discrimination" class="section level1">
 <h1>Omega Group plc- Pay Discrimination</h1>
-<p>Scenario: A sample of 50 employees (24 men, 26 women) at Omega Group Plc showed a 8,700 difference in average salary for men compared to women.</p>
+<p><strong>Scenario: A sample of 50 employees (24 men, 26 women) at Omega Group Plc showed a 8,700 difference in average salary for men compared to women.</strong></p>
 <p>We are going to investigate whether this marked difference is indeed significant and whether there is an observable factor (such as experience) that could explain the difference.</p>
 <div id="loading-the-data" class="section level2">
 <h2>Loading the data</h2>
@@ -95,8 +95,8 @@ glimpse(omega) # examine the data frame</code></pre>
 ## $ gender     &lt;chr&gt; &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, ...
 ## $ experience &lt;dbl&gt; 16, 25, 15, 33, 16, 19, 32, 34, 1, 44, 7, 14, 33, 19, 24...</code></pre>
 </div>
-<div id="relationship-salary---gender" class="section level2">
-<h2>Relationship Salary - Gender ?</h2>
+<div id="does-salary-depend-on-gender-at-omega" class="section level2">
+<h2>Does Salary Depend on Gender at Omega?</h2>
 <pre class="r"><code># Summary Statistics of salary by gender
 gender_dataframe &lt;- mosaic::favstats (salary ~ gender, data=omega)
 
@@ -183,8 +183,8 @@ salarygenderbootstrap %&gt;%
 ## 1       0</code></pre>
 <p>0.2% chance that this is a coincidence, reject the null hypothesis. However, we cannot affirm that this significant salary difference is due to discrimination as there may be some other factors involved. Finding out the true causes of the salary gap requires further analyses.</p>
 </div>
-<div id="relationship-experience---gender" class="section level2">
-<h2>Relationship Experience - Gender?</h2>
+<div id="does-experience-correlate-with-gender" class="section level2">
+<h2>Does Experience Correlate with Gender?</h2>
 <p>The gender pay gap is definitely clear, but we now need to find out why. We learn that on average, men in the sample have 21 years of experience whereas women have 7 years. Could the level of experience be a strong driver of salary?</p>
 <pre class="r"><code># Summary Statistics of salary by gender
 gender_dataframe4 &lt;- favstats (experience ~ gender, data=omega)
@@ -252,8 +252,8 @@ theme_clean()+
 ## 1       0</code></pre>
 <p>All tests above support the rejection of the null hypothesis - a significant difference between the the experience of men and women can be confirmed. This is not contradictory with our previous results. However, it supports the thesis, that salary differences are not necessarily due to gender discrimination, but factors like experience might also have an impact.</p>
 </div>
-<div id="relationship-salary---experience" class="section level2">
-<h2>Relationship Salary - Experience ?</h2>
+<div id="understanding-the-relationship-between-experience-and-salary" class="section level2">
+<h2>Understanding the Relationship Between Experience and Salary</h2>
 <p>We will now investigate whether there is any significant relationship between experience and salary in order to determine whether there is a clear reason explaining Omega’s gender pay gap.</p>
 <pre class="r"><code>#Calculating correlation
 cor(omega$experience, omega$salary)</code></pre>

@@ -36,16 +36,7 @@
     </item>
     
     <item>
-      <title>Financial Analysis</title>
-      <link>/projects/project3/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/project3/</guid>
-      <description>knitr::opts_chunk$set(message = FALSE, warning = FALSE, tidy=FALSE, # display code as typedsize=&amp;quot;small&amp;quot;) # slightly smaller font for codeoptions(digits = 3)# default figure sizeknitr::opts_chunk$set(fig.width=6.75, fig.height=6.75,fig.align = &amp;quot;center&amp;quot;)Returns of financial stocksLoading the dataset#Loading the NYSE datasetnyse &amp;lt;- read_csv(here::here(&amp;quot;data&amp;quot;,&amp;quot;nyse.csv&amp;quot;))nyse %&amp;gt;%glimpse %&amp;gt;%skim## Rows: 508## Columns: 6## $ symbol &amp;lt;chr&amp;gt; &amp;quot;MMM&amp;quot;, &amp;quot;ABB&amp;quot;, &amp;quot;ABT&amp;quot;, &amp;quot;ABBV&amp;quot;, &amp;quot;ACN&amp;quot;, &amp;quot;AAP&amp;quot;, &amp;quot;AFL&amp;quot;, &amp;quot;A&amp;quot;.</description>
-    </item>
-    
-    <item>
-      <title>Project 1</title>
+      <title>Omega plc&#39;s Gender Pay Gap</title>
       <link>/projects/project1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -56,13 +47,23 @@ Loading the dataomega &amp;lt;- read_csv(here::here(&amp;quot;data&amp;quot;, &
     </item>
     
     <item>
-      <title>Project 1</title>
+      <title>Project 2</title>
       <link>/projects/project2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/project2/</guid>
-      <description>Where Do People Drink The Most Beer, Wine And Spirits?library(fivethirtyeight)data(drinks)We have one column with character data which contains country names and four columns with numerical data which contains the amount of each type of alcohol consumed in these countries. There are no missing variables.
-glimpse(drinks)## Rows: 193## Columns: 5## $ country &amp;lt;chr&amp;gt; &amp;quot;Afghanistan&amp;quot;, &amp;quot;Albania&amp;quot;, &amp;quot;Algeria&amp;quot;, &amp;quot;...## $ beer_servings &amp;lt;int&amp;gt; 0, 89, 25, 245, 217, 102, 193, 21, 261.</description>
+      <description>Where Do People Drink The Most Beer, Wine And Spirits?For this project I am going to analyse which countries consume the most of different types of alcoholic beverages
+Loading and exploring the datalibrary(fivethirtyeight)data(drinks)We have one column with character data which contains country names and four columns with numerical data which contains the amount of each type of alcohol consumed in these countries. There are no missing variables.</description>
+    </item>
+    
+    <item>
+      <title>Project 3</title>
+      <link>/projects/project3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project3/</guid>
+      <description>Returns of FAANG stocksIn this project we are going to explore the performance of FAANG Stocks (Facebook, Amazon, Apple, Netflix and Google) that have earned their notoriety by taking the stock market by storm and rapidly rising to become the most valuable companies out there, with no sign of slowing down.
+Loading the dataset#Loading the NYSE datasetnyse &amp;lt;- read_csv(here::here(&amp;quot;data&amp;quot;,&amp;quot;nyse.csv&amp;quot;))nyse %&amp;gt;%glimpse %&amp;gt;%skim## Rows: 508## Columns: 6## $ symbol &amp;lt;chr&amp;gt; &amp;quot;MMM&amp;quot;, &amp;quot;ABB&amp;quot;, &amp;quot;ABT&amp;quot;, &amp;quot;ABBV&amp;quot;, &amp;quot;ACN&amp;quot;, &amp;quot;AAP&amp;quot;, &amp;quot;AFL&amp;quot;, &amp;quot;A&amp;quot;.</description>
     </item>
     
     <item>

@@ -8,7 +8,7 @@
 	<meta name="description" content="Portfolio Description">
 	<meta name="author" content="Aman Akshay Sharma">
 	<meta name="generator" content="Hugo 0.75.1" />
-	<title>Project 1 &middot; Aman Sharma</title>
+	<title>Project 2 &middot; Aman Sharma</title>
 	<!-- Stylesheets -->
 	
 	<link rel="stylesheet" href="/css/main.css"/>
@@ -75,7 +75,7 @@
                     <section id="one">
                         <div class="inner">
                             <header class="major">
-                                <h1>Project 1</h1>
+                                <h1>Project 2</h1>
                             </header>
                             
                             
@@ -83,6 +83,9 @@
 
 <div id="where-do-people-drink-the-most-beer-wine-and-spirits" class="section level1">
 <h1>Where Do People Drink The Most Beer, Wine And Spirits?</h1>
+<p>For this project I am going to analyse which countries consume the most of different types of alcoholic beverages</p>
+<div id="loading-and-exploring-the-data" class="section level2">
+<h2>Loading and exploring the data</h2>
 <pre class="r"><code>library(fivethirtyeight)
 data(drinks)</code></pre>
 <p>We have one column with character data which contains country names and four columns with numerical data which contains the amount of each type of alcohol consumed in these countries. There are no missing variables.</p>
@@ -235,6 +238,9 @@ data(drinks)</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="plotting-beer-consumption-by-country" class="section level2">
+<h2>Plotting beer consumption by country</h2>
 <pre class="r"><code>desc_beer&lt;- drinks %&gt;% 
   arrange(desc(beer_servings))
 
@@ -243,21 +249,27 @@ top25_beer&lt;-head(desc_beer,25)
 ggplot(top25_beer,aes(x=reorder(country,beer_servings),y=beer_servings)) + geom_col(fill=&quot;orange&quot;) + labs(x=&quot;Country&quot;, y=&quot;Beer Servings&quot;, title=&quot;Top 25 Beer Consuming Countries&quot;) + coord_flip() + theme_clean() + 
   NULL</code></pre>
 <p><img src="/projects/project2/index_files/figure-html/beer_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+</div>
+<div id="repeating-the-above-analysis-for-wine" class="section level2">
+<h2>Repeating the above analysis for wine</h2>
 <pre class="r"><code>desc_wine&lt;- drinks %&gt;% 
   arrange(desc(wine_servings))
 
 top25_wine&lt;-head(desc_wine,25)
 
 ggplot(top25_wine,aes(x=reorder(country,wine_servings),y=wine_servings)) + geom_col(fill=&quot;maroon&quot;) + labs(x=&quot;Country&quot;, y=&quot;Wine Servings&quot;, title=&quot;Top 25 Wine Consuming Countries&quot;) + coord_flip() + theme_clean() + NULL</code></pre>
-<p><img src="/projects/project2/index_files/figure-html/wine_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p><img src="/projects/project2/index_files/figure-html/wine_plot-1.png" width="648" style="display: block; margin: auto;" />
+## Lastly, for spirits</p>
 <pre class="r"><code>desc_spirit&lt;- drinks %&gt;% 
   arrange(desc(spirit_servings))
 
 top25_spirit&lt;-head(desc_spirit,25)
 
 ggplot(top25_spirit,aes(x=reorder(country,spirit_servings),y=spirit_servings)) + geom_col(fill=&quot;grey&quot;) + labs(x=&quot;Country&quot;, y=&quot;Spirit Servings&quot;, title=&quot;Top 25 Spirit Consuming Countries&quot;) + coord_flip() + theme_clean() + NULL</code></pre>
-<p><img src="/projects/project2/index_files/figure-html/spirit_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p><img src="/projects/project2/index_files/figure-html/spirit_plot-1.png" width="648" style="display: block; margin: auto;" />
+## Comment</p>
 <p>In the first plot we can see that Namibia has the highest yearly consumption of beer per capita. Beer is one of Namibia’s most iconic commodity and their top quality brewing is a legacy of German colonialism.The second most beer-loving country is Czech Republic, known for its unique brewing methods and prevalent drinking culture. The second plot, representing wine consumption, shows that French and Portuguese drink the most wine. It is not very surprising given these are one of the most well known wine producing countries in the world. Last but not least, looking at the third plot we can see that Grenada and Belarus are the most spirit-loving countries. We can safely assume that Grenadians prefer to drink rum while Belarussians enjoy their vodka.</p>
+</div>
 </div>
 
                         </div>
